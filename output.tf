@@ -6,12 +6,11 @@ output "github_actions_service_account_email" {
   value = google_service_account.github_actions.email
 }
 
-output "pool_name" {
-  value       = module.github_actions_oidc.pool_name
-  description = "GitHub Actions Workload Identity pool name"
+output "cloud_run_test_app_service_account" {
+  value = google_service_account.cloud_run_test_app.email
 }
 
-output "provider_name" {
-  value       = module.github_actions_oidc.provider_name
+output "workload_identity_pool_provider_name" {
+  value       = google_iam_workload_identity_pool_provider.main.name
   description = "GitHub Actions Workload Identity provider name"
 }

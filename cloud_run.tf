@@ -1,3 +1,9 @@
+# Cloud run service account
+resource "google_service_account" "cloud_run_test_app" {
+  account_id   = "cloud-run-test-app"
+  display_name = "cloud-run-test-app"
+}
+
 # Cloud run service test-app
 resource "google_cloud_run_v2_service" "test_app" {
   name     = "test-app"
@@ -6,7 +12,7 @@ resource "google_cloud_run_v2_service" "test_app" {
   template {
     max_instance_request_concurrency = 50
     timeout                          = "120s"
-    service_account                  = google_service_account.cloud_run.email
+    service_account                  = google_service_account.cloud_run_test_app.email
 
     containers {
       image = "gcr.io/cloudrun/placeholder"
@@ -38,7 +44,12 @@ resource "google_cloud_run_v2_service" "test_app" {
   }
 
   lifecycle {
-    ignore_changes = [template[0].containers[0].image]
+    ignore_changes = [
+      client,
+      client_version,
+      template[0].containers[0].image,
+      template[0].revision
+    ]
   }
 }
 
